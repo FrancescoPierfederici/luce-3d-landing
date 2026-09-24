@@ -5,7 +5,7 @@
  *  1. scroll (Lenis + ScrollTrigger su un solo RAF) bloccato e preloader visibile
  *  2. preloader legato al caricamento reale: primi 20 frame dell'hero + font
  *  3. sezioni create nell'ordine della pagina (l'ordine conta per i pin di ScrollTrigger)
- *  4. uscita a tendina, intro dell'hero, poi Three.js scaricato a pagina ferma
+ *  4. uscita a tendina e intro dell’hero; Three.js arriva al primo scroll
  */
 import './styles/tokens.css';
 import './styles/base.css';
@@ -19,6 +19,7 @@ import './styles/ritual.css';
 import './styles/finale.css';
 
 import { env } from './core/env.js';
+import { yieldToMain } from './core/utils.js';
 import { initScroll, lockScroll, unlockScroll, ScrollTrigger } from './core/scroll.js';
 import { FrameSequence } from './components/FrameSequence.js';
 import { Preloader } from './components/Preloader.js';
@@ -68,16 +69,20 @@ async function boot() {
 
   // split-text dopo i font: le righe dipendono dalle metriche reali
   // ScrollTrigger creati nell'ordine della pagina
+  // (una pausa tra una sezione e l'altra: l'avvio non diventa un unico task lungo)
   const hero = createHero(heroRoot, heroSeq);
   hero.scroll();
   createManifesto(document.querySelector('.manifesto'));
+  await yieldToMain();
   const bottle = createBottleSection(document.querySelector('.bottle'), {
     canvas: document.querySelector('.webgl'),
   });
   createNotes(document.querySelector('.notes'));
+  await yieldToMain();
   const essence = createEssence(document.querySelector('.essence'));
   createRitual(document.querySelector('.ritual'));
-  createFinale(document.querySelector('.finale'), { getBottle: bottle.load });
+  createFinale(document.querySelector('.finale'), { getBottle: bottle.loadNow });
+  await yieldToMain();
   // tema e header dopo le sezioni: si appoggiano ai loro pin
   createTheme({ ritual: document.querySelector('.ritual') });
   createHeader(document.querySelector('.site-header'));
@@ -92,9 +97,9 @@ async function boot() {
   unlockScroll();
   hero.intro();
 
-  // Three.js si scarica a pagina ferma, dopo l'intro: non pesa sul primo caricamento
-  const idle = window.requestIdleCallback ?? ((fn) => setTimeout(fn, 1200));
-  idle(() => bottle.load(), { timeout: 4000 });
+  // Three.js si scarica al primo scroll: tra hero e bottiglia ci sono 5+ schermate di margine,
+  // e chi non scorre non paga ~500 ms di lavoro (renderer, HDRI, shader) che non vedrebbe
+  window.addEventListener('scroll', () => bottle.load(), { once: true, passive: true });
 }
 
 boot().catch((err) => {

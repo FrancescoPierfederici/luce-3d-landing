@@ -1,5 +1,6 @@
 import { gsap, ScrollTrigger } from '../core/scroll.js';
 import { env, isStacked } from '../core/env.js';
+import { whenScrollIdle, yieldToMain } from '../core/utils.js';
 
 // momenti (progress del pin) in cui compaiono i tre callout
 const CALLOUT_AT = { glass: 0.14, cap: 0.4, liquid: 0.66 };
@@ -68,22 +69,38 @@ export function createBottleSection(root, { canvas }) {
   });
 
   // ── caricamento pigro di Three.js + HDRI ──
+  // I passi pesanti (renderer, HDRI, primo render con compilazione: ~220 ms non divisibili)
+  // aspettano una pausa nello scroll, così non interrompono lo scrub dell'hero.
+  // Se la sezione è ormai vicina il caricamento diventa urgente e non aspetta più.
+  let makeUrgent;
+  const urgent = new Promise((r) => (makeUrgent = r));
+  const quietMoment = () => Promise.race([whenScrollIdle(250), urgent]).then(yieldToMain);
   let loading = null;
+  const loadNow = () => {
+    makeUrgent();
+    return load();
+  };
   const load = () =>
     (loading ??= (async () => {
       const [{ Stage }, { BottleScene }] = await Promise.all([
         import('../three/Stage.js'),
         import('../three/BottleScene.js'),
       ]);
+      await quietMoment();
       const s = new Stage(canvas);
+      await quietMoment();
       const sc = new BottleScene(s);
       sc.setProgress(progress);
-      // HDRI prima della compilazione: cambiare environment dopo può ricompilare gli shader
+      await quietMoment();
+      // HDRI prima della compilazione: cambiare environment dopo può ricompilare gli shader.
+      // 512 px bastano per riflessi sfumati da studio e il parsing costa ~4 volte meno dell'1k
       await Promise.race([
-        s.loadHDRI(`${env.base}hdri/studio_small_08_1k.hdr`, { intensity: 0.95, rotationY: -0.6 }).catch(() => {}),
+        s.loadHDRI(`${env.base}hdri/studio_small_08_512.hdr`, { intensity: 0.95, rotationY: -0.6 }).catch(() => {}),
         new Promise((r) => setTimeout(r, 5000)),
       ]);
+      await quietMoment();
       await s.warmUp(); // shader e buffer di trasmissione pronti prima che la sezione arrivi
+      await quietMoment();
       sc.prepare(); // entrambi i fondali (notte e alba) già sulla GPU
       stage = s;
       scene = sc;
@@ -99,7 +116,7 @@ export function createBottleSection(root, { canvas }) {
     trigger: root,
     start: pin ? () => pin.start - innerHeight * 2.5 : 'top bottom+=250%',
     once: true,
-    onEnter: load,
+    onEnter: () => loadNow(),
   });
 
   // ── callout: punto di partenza delle linee, misurato dal layout ──
@@ -189,7 +206,7 @@ export function createBottleSection(root, { canvas }) {
     hit.addEventListener('pointercancel', end);
   }
 
-  return { load };
+  return { load, loadNow };
 }
 
 /** Scrive attributi SVG solo quando cambiano (niente lavoro inutile a ogni frame). */

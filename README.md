@@ -43,11 +43,11 @@ Un sito così è facile da far sembrare bello e difficile da far andare **fluido
 - **Vetro**: `MeshPhysicalMaterial` con `transmission`, `ior: 1.5`, `dispersion` (disattivata su mobile) e `attenuationColor`.
 - **Liquido**: opaco con sfumatura verticale per vertice, perché in three r170 un materiale con transmission non vede un altro materiale con transmission.
 - **Fondale dipinto su canvas**: bagliore più una linea d'orizzonte calcolata dalla prospettiva, così il vetro spesso della base rifrange luce e non il vuoto.
-- **Ottone spazzolato**: `anisotropy` verticale; HDRI da studio (Poly Haven, CC0).
+- **Ottone spazzolato**: `anisotropy` verticale; HDRI da studio (Poly Haven, CC0) ridotto a 512 px, sufficiente per riflessi sfumati e 4 volte più rapido da decodificare.
 
 ### 3. Un solo renderer, acceso solo quando serve — [`Stage.js`](src/three/Stage.js)
 - Il canvas WebGL è unico, fisso dietro al contenuto e condiviso tra sezione bottiglia e finale. Il render si ferma quando nessuna delle due è in vista.
-- **Three.js è caricato in modo pigro** dopo il preloader, con `import()` dinamico: il JS iniziale resta a **57 KB gzip**.
+- **Three.js è caricato in modo pigro** con `import()` dinamico al primo scroll, e i passi pesanti (renderer, HDRI, primo render) aspettano una pausa nello scroll. Il JS iniziale resta a **57 KB gzip** e chi non scorre non paga il lavoro del 3D.
 - **Warm-up**: `compileAsync` e un render a canvas invisibile prima che la sezione arrivi, così la prima comparsa non paga la compilazione degli shader.
 - **Risoluzione adattiva**: un governor misura i frame e riduce o aumenta il pixel ratio. Scende subito del 12–30% se perde frame e poi non torna a quel livello; su GPU integrate parte già da 1.
 
@@ -72,7 +72,10 @@ Misure con Playwright e Chrome su un portatile con **GPU integrata Intel UHD**, 
 | JS iniziale / Three.js (pigro) | **57 KB** / 129 KB gzip |
 | Bitmap decodificate in memoria | massimo **24** per sequenza |
 | Peso totale, cache vuota | ~15 MB desktop, ~4 MB mobile (circa il 95% sono frame, scaricati in background) |
-| Lighthouse (sito live, desktop) | _in aggiornamento_ |
+| Web Vitals sul sito live, desktop (cache vuota) | FCP/LCP **0,70 s** · CLS **0,02** · TBT **29 ms** |
+| Web Vitals sul sito live, mobile (4G simulato, CPU ×4) | FCP/LCP **1,19 s** · CLS **0** |
+
+Il tempo bloccante al caricamento è sceso da 533 a 29 ms spostando il lavoro del 3D al primo scroll.
 
 I tre scatti residui trovati durante lo sviluppo, tutti eliminati:
 - la chiusura di 24 bitmap nello stesso frame (40–60 ms);
