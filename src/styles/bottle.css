@@ -1,0 +1,163 @@
+/* Canvas WebGL unico: fixed dietro al contenuto, visibile solo con una sezione 3D attiva */
+.webgl {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0; /* la sezione 3D attiva lo porta a 1 durante l'ingresso */
+  pointer-events: none;
+}
+
+main {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+/* la sezione è trasparente: sotto c'è il canvas */
+.bottle {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.bottle__hit {
+  position: absolute;
+  inset: 14% 30%;
+  cursor: grab;
+}
+.bottle.is-dragging .bottle__hit {
+  cursor: grabbing;
+}
+.is-touch .bottle__hit,
+.is-reduced .bottle__hit {
+  display: none;
+}
+
+.bottle__intro {
+  position: absolute;
+  top: clamp(6rem, 16vh, 10rem);
+  left: var(--gutter);
+  max-width: 24rem;
+  pointer-events: none;
+}
+.bottle__title {
+  font-size: clamp(2.25rem, 1.2rem + 3vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.bottle__lead {
+  margin-top: 1rem;
+  max-width: 26ch;
+  color: var(--ink-soft);
+}
+
+.bottle__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.bottle__lines line {
+  stroke: var(--amber);
+  stroke-width: 1;
+  /* opacità gestita dall'attributo (il CSS lo sovrascriverebbe) */
+}
+.bottle__lines circle {
+  fill: var(--amber);
+}
+
+.bottle__callouts {
+  list-style: none;
+}
+.callout {
+  position: absolute;
+  width: min(22rem, 34vw); /* Bodoni è largo: "Vetro spesso 8 mm" su una riga */
+  text-wrap: balance;
+  opacity: 0;
+  pointer-events: none;
+}
+.callout--glass {
+  left: var(--gutter);
+  bottom: 18%;
+}
+.callout--cap {
+  right: var(--gutter);
+  top: 22%;
+  text-align: right;
+}
+.callout--liquid {
+  right: var(--gutter);
+  bottom: 24%;
+  text-align: right;
+}
+.callout__title {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1.1;
+  color: var(--dawn);
+}
+.callout__text {
+  margin-top: 0.5rem;
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  will-change: transform;
+}
+
+.bottle__hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.5rem, 4vh, 2.5rem);
+  translate: -50% 0;
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+.is-touch .bottle__hint {
+  display: none;
+}
+
+/* Mobile: bottiglia in alto, un callout alla volta in basso */
+@media (max-width: 767px), (orientation: portrait) and (max-width: 1100px) {
+  .bottle__intro {
+    top: auto;
+    bottom: 9svh;
+    right: var(--gutter);
+  }
+  .callout,
+  .callout--glass,
+  .callout--cap,
+  .callout--liquid {
+    left: var(--gutter);
+    right: var(--gutter);
+    top: auto;
+    bottom: 9svh;
+    width: auto;
+    text-align: left;
+  }
+}
+
+/* Reduced motion: niente pin, callout tutti visibili */
+.is-reduced .callout {
+  opacity: 1;
+}
+@media (max-width: 767px), (orientation: portrait) and (max-width: 1100px) {
+  .is-reduced .bottle {
+    height: auto;
+    min-height: 100svh;
+    padding-top: 62svh;
+    padding-bottom: 3rem;
+  }
+  .is-reduced .bottle__intro,
+  .is-reduced .callout {
+    position: static;
+    margin: 0 var(--gutter) 1.5rem;
+  }
+  .is-reduced .bottle__lines {
+    display: none;
+  }
+}

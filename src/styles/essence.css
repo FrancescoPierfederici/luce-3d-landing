@@ -1,0 +1,104 @@
+.essence {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--night);
+}
+
+.essence__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ombre laterali: i testi entrano dai lati e devono restare leggibili sul video */
+.essence__shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgb(34 18 7 / 0.75), transparent 32%, transparent 68%, rgb(34 18 7 / 0.75)),
+    linear-gradient(transparent 60%, rgb(34 18 7 / 0.6));
+}
+
+.essence__intro {
+  position: absolute;
+  top: clamp(6rem, 16vh, 10rem);
+  left: var(--gutter);
+  max-width: 24rem;
+}
+.essence__heading {
+  font-size: clamp(2.25rem, 1.2rem + 3vw, 4rem);
+  line-height: 1;
+}
+.essence__lead {
+  margin-top: 1rem;
+  color: var(--ink-soft);
+}
+
+.essence__line {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  max-width: 9em;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1rem + 3vw, 3.75rem);
+  line-height: 1.05;
+  color: var(--dawn);
+  text-wrap: balance;
+  opacity: 0;
+  visibility: hidden;
+}
+.essence__line em {
+  color: var(--amber);
+}
+.essence__line[data-side='left'] {
+  left: var(--gutter);
+}
+.essence__line[data-side='right'] {
+  right: var(--gutter);
+  text-align: right;
+}
+
+@media (max-width: 767px), (orientation: portrait) and (max-width: 1100px) {
+  .essence__shade {
+    background: linear-gradient(transparent 45%, rgb(34 18 7 / 0.82) 70%);
+  }
+  .essence__intro {
+    top: auto;
+    bottom: 9svh;
+    right: var(--gutter);
+  }
+  .essence__line {
+    top: auto;
+    bottom: 9svh;
+    translate: none;
+    max-width: none;
+  }
+  .essence__line[data-side] {
+    left: var(--gutter);
+    right: var(--gutter);
+    text-align: left;
+  }
+}
+
+/* Reduced motion: frame statico, testi impilati e visibili */
+.is-reduced .essence {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 0 var(--gutter) 10svh;
+}
+.is-reduced .essence__intro,
+.is-reduced .essence__line {
+  position: relative;
+  inset: auto;
+  translate: none;
+  opacity: 1;
+  visibility: visible;
+  text-align: left;
+}

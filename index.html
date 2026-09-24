@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LUCE: la luce ha un profumo</title>
+    <meta
+      name="description"
+      content="LUCE, Eau de Parfum. Case study di una landing scroll-driven con video scrubbato e 3D in tempo reale. Brand fittizio."
+    />
+    <meta name="theme-color" content="#0B0B0C" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0B0C'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23F2B35B'/%3E%3C/svg%3E" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Manrope:wght@400;500;600&display=swap"
+    />
+    <noscript><style>.preloader { display: none; }</style></noscript>
+  </head>
+  <body>
+    <div class="preloader" aria-hidden="true">
+      <p class="preloader__wordmark" data-preloader-wordmark>LUCE</p>
+      <div class="preloader__meta">
+        <span class="preloader__caption">Eau de Parfum</span>
+        <span class="preloader__count" data-preloader-count>000</span>
+        <span class="preloader__bar"><span data-preloader-bar></span></span>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="site-header__logo" href="#top" aria-label="LUCE, torna all’inizio">LUCE</a>
+        <span class="site-header__meta">Eau de Parfum, 50&nbsp;ml</span>
+      </div>
+    </header>
+
+    <canvas class="webgl" aria-hidden="true"></canvas>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <canvas class="hero__canvas" aria-hidden="true"></canvas>
+        <div class="hero__vignette" aria-hidden="true"></div>
+        <div class="hero__shade" aria-hidden="true"></div>
+        <div class="hero__night" aria-hidden="true"></div>
+
+        <div class="hero__copy">
+          <h1 class="hero__title" id="hero-title">La luce<br />ha un <em>profumo</em></h1>
+          <p class="hero__sub">Un Eau de Parfum che nasce di notte e si apre all’alba.</p>
+        </div>
+
+        <p class="hero__aside">
+          <em>Nato nel buio,</em><br />
+          rivelato dall’ambra.
+        </p>
+
+        <div class="hero__cue" aria-hidden="true">
+          <div class="hero__cue-inner">
+            <span>Scorri</span>
+            <span class="hero__cue-line"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="manifesto" aria-label="Manifesto">
+        <p class="manifesto__text">
+          La notte non finisce: si scioglie. LUCE è il primo raggio che scalda l’<em>ambra</em>, il sale che
+          resta sulla pelle, il fiore che si apre prima dell’<em>alba</em>.
+        </p>
+      </section>
+
+      <section class="bottle" id="bottiglia" aria-labelledby="bottle-title">
+        <div class="bottle__hit" aria-hidden="true"></div>
+
+        <header class="bottle__intro">
+          <h2 class="bottle__title" id="bottle-title">Un blocco di luce</h2>
+          <p class="bottle__lead">Vetro pieno, ottone, ambra. Nient’altro da aggiungere.</p>
+        </header>
+
+        <svg class="bottle__lines" aria-hidden="true">
+          <line data-line="glass" opacity="0" /><circle data-dot="glass" r="0" />
+          <line data-line="cap" opacity="0" /><circle data-dot="cap" r="0" />
+          <line data-line="liquid" opacity="0" /><circle data-dot="liquid" r="0" />
+        </svg>
+
+        <ol class="bottle__callouts">
+          <li class="callout callout--glass" data-anchor="glass" data-side="left">
+            <p class="callout__title">Vetro spesso 8&nbsp;mm</p>
+            <p class="callout__text">Trattiene la luce e la piega, come una lente.</p>
+          </li>
+          <li class="callout callout--cap" data-anchor="cap" data-side="right">
+            <p class="callout__title">Tappo in ottone spazzolato</p>
+            <p class="callout__text">Pesante in mano, tiepido al tatto.</p>
+          </li>
+          <li class="callout callout--liquid" data-anchor="liquid" data-side="right">
+            <p class="callout__title">50&nbsp;ml Eau de Parfum</p>
+            <p class="callout__text">Concentrazione al 18%: dura dall’alba alla sera.</p>
+          </li>
+        </ol>
+
+        <p class="bottle__hint" aria-hidden="true">Trascina per ruotare</p>
+      </section>
+
+      <section class="notes" aria-labelledby="notes-title">
+        <div class="notes__track">
+          <header class="notes__intro">
+            <h2 class="notes__heading" id="notes-title">Le note</h2>
+            <p class="notes__lead">Tre ore di luce, in ordine. Dalla prima, fredda e salata, all’ultima che resta sulla pelle.</p>
+          </header>
+
+          <article class="note" data-bg="#101a1c">
+            <figure class="note__media">
+              <picture>
+                <source type="image/avif" srcset="/images/note-testa-800.avif 800w, /images/note-testa-1600.avif 1600w" sizes="(max-width: 767px) 80vw, 36vw" />
+                <img src="/images/note-testa-1600.webp" srcset="/images/note-testa-800.webp 800w, /images/note-testa-1600.webp 1600w" sizes="(max-width: 767px) 80vw, 36vw" width="1600" height="2124" loading="lazy" decoding="async" alt="Fette di bergamotto e cristalli di sale marino su pietra scura" />
+              </picture>
+            </figure>
+            <div class="note__body">
+              <span class="note__number" aria-hidden="true">01</span>
+              <h3 class="note__title">Testa</h3>
+              <p class="note__accord">Bergamotto e sale marino</p>
+              <p class="note__text">La prima luce è fredda e salata: una scorza aperta sulla roccia ancora bagnata.</p>
+            </div>
+          </article>
+
+          <article class="note" data-bg="#28160f">
+            <figure class="note__media">
+              <picture>
+                <source type="image/avif" srcset="/images/note-cuore-800.avif 800w, /images/note-cuore-1600.avif 1600w" sizes="(max-width: 767px) 80vw, 36vw" />
+                <img src="/images/note-cuore-1600.webp" srcset="/images/note-cuore-800.webp 800w, /images/note-cuore-1600.webp 1600w" sizes="(max-width: 767px) 80vw, 36vw" width="1600" height="2124" loading="lazy" decoding="async" alt="Fiori d’arancio e gelsomino appena aperti su una lastra di pietra" />
+              </picture>
+            </figure>
+            <div class="note__body">
+              <span class="note__number" aria-hidden="true">02</span>
+              <h3 class="note__title">Cuore</h3>
+              <p class="note__accord">Fiore d’arancio e gelsomino</p>
+              <p class="note__text">Quando il sole sale, i fiori si aprono. Un bianco caldo, quasi di miele.</p>
+            </div>
+          </article>
+
+          <article class="note" data-bg="#3a220e">
+            <figure class="note__media">
+              <picture>
+                <source type="image/avif" srcset="/images/note-fondo-800.avif 800w, /images/note-fondo-1600.avif 1600w" sizes="(max-width: 767px) 80vw, 36vw" />
+                <img src="/images/note-fondo-1600.webp" srcset="/images/note-fondo-800.webp 800w, /images/note-fondo-1600.webp 1600w" sizes="(max-width: 767px) 80vw, 36vw" width="1600" height="2124" loading="lazy" decoding="async" alt="Frammenti di ambra grezza e trucioli di cedro controluce" />
+              </picture>
+            </figure>
+            <div class="note__body">
+              <span class="note__number" aria-hidden="true">03</span>
+              <h3 class="note__title">Fondo</h3>
+              <p class="note__accord">Ambra e cedro</p>
+              <p class="note__text">Ciò che resta sulla pelle: resina dorata e legno asciutto, fino a sera.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="essence" aria-labelledby="essence-title">
+        <canvas class="essence__canvas" aria-hidden="true"></canvas>
+        <div class="essence__shade" aria-hidden="true"></div>
+        <header class="essence__intro">
+          <h2 class="essence__heading" id="essence-title">L’essenza</h2>
+          <p class="essence__lead">Tre materie, un solo gesto di luce.</p>
+        </header>
+        <p class="essence__line" data-side="left"><em>Una scorza</em> che si apre al sale.</p>
+        <p class="essence__line" data-side="right"><em>Un fiore</em> che trattiene il sole.</p>
+        <p class="essence__line" data-side="left"><em>Una resina</em> che non tramonta.</p>
+      </section>
+
+      <section class="ritual" aria-labelledby="ritual-title">
+        <div class="ritual__frame">
+          <picture>
+            <source type="image/avif" srcset="/images/lifestyle-800.avif 800w, /images/lifestyle-1600.avif 1600w, /images/lifestyle-2400.avif 2400w" sizes="100vw" />
+            <img src="/images/lifestyle-1600.webp" srcset="/images/lifestyle-800.webp 800w, /images/lifestyle-1600.webp 1600w, /images/lifestyle-2400.webp 2400w" sizes="100vw" width="1600" height="904" loading="lazy" decoding="async" alt="Il flacone di LUCE su una lastra di marmo, davanti al mare all’alba" />
+          </picture>
+        </div>
+        <div class="ritual__scrim" aria-hidden="true"></div>
+        <header class="ritual__intro">
+          <h2 class="ritual__heading" id="ritual-title">Il rituale</h2>
+          <p class="ritual__lead">Un gesto, prima che faccia giorno.</p>
+        </header>
+        <figure class="ritual__quote">
+          <blockquote><p>«Lo indosso quando è ancora buio. Quando esco, è già mattina.»</p></blockquote>
+          <figcaption>Il rituale di LUCE</figcaption>
+        </figure>
+      </section>
+
+      <section class="finale" aria-labelledby="finale-title">
+        <div class="finale__content">
+          <h2 class="finale__title" id="finale-title">Indossa l’<em>alba</em>.</h2>
+          <div class="finale__magnet">
+            <a class="finale__cta" href="#bottiglia"><span class="finale__cta-label">Scopri LUCE</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Concept project – LUCE è un brand fittizio.</p>
+      <p>Design &amp; development: Francesco Pierfederici</p>
+    </footer>
+
+    <div class="grain" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

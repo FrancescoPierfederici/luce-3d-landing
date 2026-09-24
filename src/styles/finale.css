@@ -1,0 +1,75 @@
+/* trasparente: sotto c'è il canvas 3D con la bottiglia */
+.finale {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+}
+
+.finale__content {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(2.5rem, 7svh, 5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.finale__title {
+  font-size: clamp(2.75rem, 1.6rem + 4vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+}
+.finale__title em {
+  color: var(--accent);
+}
+
+/* area magnetica più grande del bottone: l'attrazione inizia prima del contatto */
+.finale__magnet {
+  margin-top: clamp(0.5rem, 2vh, 1.25rem);
+  padding: 1.75rem 3rem;
+}
+
+.finale__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.5rem;
+  padding: 0 2.4rem;
+  border-radius: 999px;
+  background: var(--amber);
+  color: var(--night);
+  font-weight: 600;
+  font-size: var(--step-0);
+  letter-spacing: 0.01em;
+  transition: background-color 0.5s var(--ease-out), color 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+  will-change: transform;
+}
+.finale__cta-label {
+  display: inline-block;
+  will-change: transform;
+}
+.finale__cta:hover {
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: 0 18px 60px -20px rgb(154 90 18 / 0.55);
+}
+.finale__cta:active {
+  transition-duration: 0.1s;
+  background: #e6a24a;
+}
+
+.site-footer {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding: 1.75rem var(--gutter);
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}

@@ -1,0 +1,152 @@
+.notes {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.notes__track {
+  display: flex;
+  height: 100%;
+  width: max-content;
+  will-change: transform;
+}
+
+.notes__intro {
+  flex: none;
+  width: 44vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: var(--gutter);
+  padding-right: 4vw;
+}
+.notes__heading {
+  font-size: clamp(3rem, 1.6rem + 5vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+}
+.notes__lead {
+  margin-top: 1.25rem;
+  max-width: 30ch;
+  color: var(--ink-soft);
+}
+
+.note {
+  position: relative;
+  flex: none;
+  width: 100vw;
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 7vw;
+  padding: 0 8vw 0 6vw;
+}
+
+.note__media {
+  position: relative;
+  height: min(72svh, 50vw);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 3px;
+  will-change: clip-path;
+}
+.note__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.note__body {
+  position: relative;
+  max-width: 30rem;
+}
+/* numero grande dietro al titolo: la sequenza testa → cuore → fondo è un ordine reale */
+.note__number {
+  position: absolute;
+  left: -0.06em;
+  bottom: 70%;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 4rem + 14vw, 17rem);
+  line-height: 0.8;
+  color: var(--amber);
+  opacity: 0.16;
+  pointer-events: none;
+  will-change: transform;
+}
+.note__title {
+  position: relative;
+  font-size: clamp(3rem, 1.8rem + 4vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+}
+.note__accord {
+  position: relative;
+  margin-top: 0.6rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-2);
+  line-height: 1.15;
+  color: var(--amber);
+}
+.note__text {
+  position: relative;
+  margin-top: 1.25rem;
+  max-width: 32ch;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 767px), (orientation: portrait) and (max-width: 1100px) {
+  .notes__intro {
+    width: 86vw;
+  }
+  .note {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    align-content: center;
+    row-gap: 1.75rem;
+    padding: 4.5rem var(--gutter) 2rem;
+  }
+  .note__media {
+    height: 50svh;
+    justify-self: start;
+  }
+  .note__number {
+    bottom: 55%;
+    font-size: 7.5rem;
+  }
+  .note__title {
+    font-size: 2.75rem;
+  }
+}
+
+/* Reduced motion: le note si impilano in verticale, niente scroll orizzontale */
+.is-reduced .notes {
+  height: auto;
+  overflow: visible;
+}
+.is-reduced .notes__track {
+  flex-direction: column;
+  width: auto;
+}
+.is-reduced .notes__intro {
+  width: auto;
+  padding: 7rem var(--gutter) 0;
+}
+@media (max-width: 767px), (orientation: portrait) and (max-width: 1100px) {
+  .is-reduced .note .note__media {
+    height: 56svh;
+  }
+}
+.is-reduced .note {
+  width: auto;
+  height: auto;
+  padding-block: clamp(2.5rem, 6vh, 5rem);
+}
+.is-reduced .note__media {
+  height: min(64svh, 44vw);
+}

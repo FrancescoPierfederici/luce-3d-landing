@@ -1,0 +1,219 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  /* Lenis possiede lo scroll: niente scroll-behavior smooth */
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped,
+html.is-locked {
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+em {
+  font-style: italic;
+}
+
+:focus-visible {
+  outline: 1px solid var(--amber);
+  outline-offset: 4px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-wrap: balance;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* maschere dello split-text */
+.split-mask {
+  display: block;
+  overflow: hidden;
+  /* spazio per le discendenti del serif, compensato dal margin */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.split-line {
+  display: block;
+  will-change: transform;
+}
+.split-char {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Header */
+/* difference: contrasta da solo su notte, video, ambra e avorio, senza seguire il tema */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--z-header);
+  pointer-events: none;
+  color: var(--dawn);
+  mix-blend-mode: difference;
+  transition: translate 0.7s var(--ease-out);
+}
+.site-header.is-hidden {
+  translate: 0 -110%;
+}
+.site-header .site-header__meta {
+  color: inherit;
+  opacity: 0.72;
+}
+.site-header__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: clamp(1rem, 0.7rem + 1vw, 1.75rem) var(--gutter);
+}
+.site-header__logo {
+  pointer-events: auto;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  letter-spacing: 0.32em;
+  margin-right: -0.32em;
+}
+.site-header__meta {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+
+/* Cursore custom (solo mouse; il cursore di sistema torna se il JS non parte) */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-cursor);
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--dawn);
+  mix-blend-mode: difference; /* visibile su notte, ambra e avorio */
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  transition:
+    width 0.45s var(--ease-out),
+    height 0.45s var(--ease-out),
+    margin 0.45s var(--ease-out),
+    opacity 0.3s,
+    scale 0.2s var(--ease-out);
+  will-change: transform;
+}
+/* sui link un anello: non copre l'etichetta */
+.cursor.is-link {
+  width: 48px;
+  height: 48px;
+  margin: -24px 0 0 -24px;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--dawn);
+}
+/* sulla bottiglia un disco pieno senza blend: sul liquido ambra il difference diventerebbe blu */
+.cursor.is-rotate {
+  width: 88px;
+  height: 88px;
+  margin: -44px 0 0 -44px;
+  background: var(--dawn);
+  mix-blend-mode: normal;
+  box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.5);
+}
+.cursor.is-down {
+  scale: 0.85;
+}
+.cursor.is-out {
+  opacity: 0;
+}
+.cursor__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--night);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.cursor.is-rotate .cursor__label {
+  opacity: 1;
+}
+
+/* Grana e vignettatura globali */
+.grain {
+  position: fixed;
+  /* margine appena sufficiente per le traslazioni del keyframe: layer piccolo */
+  inset: -10%;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -0.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.9s steps(6) infinite;
+  will-change: transform;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -4%); }
+  60% { transform: translate(-4%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgb(0 0 0 / var(--vignette)) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain {
+    animation: none;
+  }
+}

@@ -1,0 +1,39 @@
+:root {
+  /* Notte → alba */
+  --night: #0b0b0c;
+  --amber: #f2b35b;
+  --dawn: #f5efe6;
+
+  /* tema corrente: animato con lo scroll da src/core/theme.js (notte → ambra → alba) */
+  --bg: var(--night);
+  --ink: var(--dawn);
+  --accent: var(--amber); /* sulla luce diventa un ambra scuro: contrasto ≥ 4.5:1 */
+  --vignette: 0.45;
+  --ink-soft: color-mix(in oklab, var(--ink) 72%, transparent);
+  --ink-faint: color-mix(in oklab, var(--ink) 50%, transparent);
+  --line: color-mix(in oklab, var(--ink) 18%, transparent);
+
+  --font-display: 'Bodoni Moda', 'Didot', 'Times New Roman', serif; /* OFL, gratuito */
+  --font-body: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* scala fluida, rapporto ~1.33 */
+  --step--1: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+  --step-0: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+  --step-1: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --step-2: clamp(1.625rem, 1.3rem + 1.4vw, 2.375rem);
+  --step-display: clamp(2.9rem, 1.4rem + 5.6vw, 5.5rem);
+  --step-wordmark: clamp(4rem, 1.8rem + 10.5vw, 9.5rem);
+
+  --gutter: clamp(1.25rem, 0.6rem + 2.8vw, 3rem);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* expo.out */
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1); /* power3.inOut */
+
+  /* z-index semantico */
+  --z-content: 1;
+  --z-overlay: 10;
+  --z-header: 20;
+  --z-grain: 30;
+  --z-preloader: 40;
+  --z-cursor: 50;
+}

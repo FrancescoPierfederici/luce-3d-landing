@@ -1,0 +1,157 @@
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--night);
+}
+
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* strati d'ombra: ordine = vignetta, ombra di scroll, notte dell'intro */
+.hero__vignette,
+.hero__shade,
+.hero__night {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hero__vignette {
+  inset: -25%;
+  background: radial-gradient(closest-side at 50% 48%, transparent 30%, var(--night) 100%);
+  will-change: transform;
+}
+.hero__shade {
+  background: var(--night);
+  opacity: 0.82;
+}
+.hero__night {
+  background: var(--night);
+}
+
+.hero__copy {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(2rem, 1rem + 5vh, 5rem);
+  z-index: var(--z-content);
+  max-width: 40rem;
+}
+/* ombra morbida dietro il titolo: resta leggibile quando la luce colpisce il vetro */
+.hero__copy::before {
+  content: '';
+  position: absolute;
+  inset: -40% -35% -60% -30%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgb(11 11 12 / 0.62), transparent);
+  pointer-events: none;
+}
+
+.hero__title {
+  font-size: var(--step-display);
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  color: var(--dawn);
+}
+.hero__title em {
+  color: var(--amber);
+}
+
+.hero__sub {
+  margin-top: clamp(1rem, 0.6rem + 1vw, 1.5rem);
+  max-width: 30ch;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+.hero__aside {
+  position: absolute;
+  z-index: var(--z-content);
+  right: var(--gutter);
+  top: 50%;
+  translate: 0 -50%;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1.15;
+  text-align: right;
+  opacity: 0;
+  visibility: hidden;
+}
+.hero__aside em {
+  color: var(--amber);
+}
+
+.hero__cue {
+  position: absolute;
+  z-index: var(--z-content);
+  right: var(--gutter);
+  bottom: clamp(2rem, 1rem + 5vh, 5rem);
+}
+.hero__cue-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+.hero__cue-line {
+  position: relative;
+  width: 1px;
+  height: 3.5rem;
+  background: var(--line);
+  overflow: hidden;
+}
+.hero__cue-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--amber);
+  transform-origin: top;
+  animation: cue 2.2s var(--ease-inout) infinite;
+}
+@keyframes cue {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45% { transform: scaleY(1); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* Mobile: la bottiglia sta nella fascia alta, il testo sotto */
+@media (max-width: 767px) {
+  .hero__copy {
+    bottom: clamp(1.75rem, 6svh, 3rem);
+    right: 4.5rem;
+  }
+  .hero__aside {
+    top: auto;
+    bottom: 18svh;
+    left: var(--gutter);
+    right: var(--gutter);
+    translate: none;
+    text-align: left;
+  }
+  .hero__cue {
+    bottom: clamp(1.75rem, 6svh, 3rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__shade {
+    opacity: 0;
+  }
+  .hero__vignette {
+    inset: -10%;
+  }
+  .hero__cue-line::after {
+    animation: none;
+    transform: scaleY(1);
+  }
+}

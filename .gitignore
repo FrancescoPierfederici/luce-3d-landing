@@ -1,0 +1,14 @@
+node_modules
+dist
+.DS_Store
+*.log
+
+# strumenti di verifica locali (script Playwright, screenshot di lavoro)
+.playwright-mcp
+
+# sorgenti pesanti (~56 MB): servono solo agli script `npm run frames` / `npm run images`;
+# i derivati ottimizzati sono in public/
+assets/
+
+# note di lavoro superate dal README
+docs/piano-fase-1.md
