@@ -72,10 +72,10 @@ Misure con Playwright e Chrome su un portatile con **GPU integrata Intel UHD**, 
 | JS iniziale / Three.js (pigro) | **57 KB** / 129 KB gzip |
 | Bitmap decodificate in memoria | massimo **24** per sequenza |
 | Peso totale, cache vuota | ~15 MB desktop, ~4 MB mobile (circa il 95% sono frame, scaricati in background) |
-| Web Vitals sul sito live, desktop (cache vuota) | FCP/LCP **0,70 s** · CLS **0,02** · TBT **29 ms** |
-| Web Vitals sul sito live, mobile (4G simulato, CPU ×4) | FCP/LCP **1,19 s** · CLS **0** |
+| Web Vitals sul sito live, desktop (cache vuota) | FCP/LCP **0,54 s** · CLS **0,02** · TBT **0 ms** |
+| Web Vitals sul sito live, mobile (4G simulato, CPU ×4) | FCP/LCP **0,90 s** · CLS **0** · TBT 318 ms |
 
-Il tempo bloccante al caricamento è sceso da 533 a 29 ms spostando il lavoro del 3D al primo scroll.
+Il tempo bloccante al caricamento (desktop) è sceso da 533 a 0 ms spostando il lavoro del 3D al primo scroll.
 
 I tre scatti residui trovati durante lo sviluppo, tutti eliminati:
 - la chiusura di 24 bitmap nello stesso frame (40–60 ms);
